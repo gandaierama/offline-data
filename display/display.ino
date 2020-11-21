@@ -1,7 +1,13 @@
 #include <LiquidCrystal.h>
-
+#include <Wire.h>
 
 LiquidCrystal lcd(12, 11, 5, 4, 3, 2);
+
+
+#define tempAdress 0x08
+#define lumiAdress 0x09
+#define proxAdress 0x10
+#define umidAdress 0x11
 
 const int ledPin =  LED_BUILTIN;
 const int ledPin2 = 13;
@@ -22,7 +28,7 @@ int umidValue=0;
 
 void setup() {
   Serial.begin(9600);
-  
+  Wire.begin();
   pinMode(ledPin, OUTPUT);
   pinMode(ledPin2, OUTPUT);
 
@@ -54,24 +60,44 @@ void loop() {
       lcd.print(millis()/1000);
       lcd.print("s|");
     }else if(intToggle==1){
+
+      Wire.beginTransmission(tempAdress);
+      tempValue= Wire.read(); 
+      Wire.endTransmission();
+
       lcd.print("Temperatura.          ");
       lcd.setCursor(0,1); 
       lcd.print("");
       lcd.print(tempValue);
       lcd.print(" Celsios .            ");
     }else if(intToggle==2){
+
+      Wire.beginTransmission(lumiAdress);
+      lumiValue= Wire.read(); 
+      Wire.endTransmission();
+      
       lcd.print("Fotoresistor LDR      ");
       lcd.setCursor(0,1); 
       lcd.print("");
       lcd.print(lumiValue);
       lcd.print(" ohms .               ");
     }else if(intToggle==3){
+
+      Wire.beginTransmission(proxAdress);
+      proxValue= Wire.read(); 
+      Wire.endTransmission();
+      
       lcd.print("Infravermelho.        ");
       lcd.setCursor(0,1); 
       lcd.print("");
       lcd.print(proxValue);
       lcd.print(" cm .                 ");
     }else if(intToggle==4){
+
+      Wire.beginTransmission(umidAdress);
+      umidValue= Wire.read(); 
+      Wire.endTransmission();
+      
       lcd.print("Higrômetro            ");
       lcd.setCursor(0,1); 
       lcd.print("");
