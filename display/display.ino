@@ -13,6 +13,13 @@ int ledState = LOW;
 int intToggle=0;  
 int incomingByte;     
 
+/////
+int tempValue=0; 
+int lumiValue=0; 
+int proxValue=0; 
+int umidValue=0; 
+/////
+
 void setup() {
   Serial.begin(9600);
   
@@ -23,7 +30,7 @@ void setup() {
   pinMode(7,OUTPUT); 
   digitalWrite(7,HIGH); 
   
-  lcd.print("Iniciando processos"); 
+  lcd.print("Iniciando processos.    "); 
 }
 
 void loop() {
@@ -39,27 +46,44 @@ void loop() {
     lcd.setCursor(0,0);
     lcd.print("");
     if(intToggle==0){
-      lcd.print("Sensor1. ");
+      lcd.print("System                ");
+      lcd.setCursor(0,1); 
+      lcd.print("");
+      lcd.print(voltage);
+      lcd.print("v|");
+      lcd.print(millis()/1000);
+      lcd.print("s|");
     }else if(intToggle==1){
-      lcd.print("Sensor2. ");
+      lcd.print("Temperatura.          ");
+      lcd.setCursor(0,1); 
+      lcd.print("");
+      lcd.print(tempValue);
+      lcd.print(" Celsios .            ");
     }else if(intToggle==2){
-      lcd.print("Sensor3. ");
+      lcd.print("Fotoresistor LDR      ");
+      lcd.setCursor(0,1); 
+      lcd.print("");
+      lcd.print(lumiValue);
+      lcd.print(" ohms .               ");
     }else if(intToggle==3){
-      lcd.print("Sensor4. ");
+      lcd.print("Infravermelho.        ");
+      lcd.setCursor(0,1); 
+      lcd.print("");
+      lcd.print(proxValue);
+      lcd.print(" cm .                 ");
     }else if(intToggle==4){
-      lcd.print("Sensor5. ");
+      lcd.print("Higrômetro            ");
+      lcd.setCursor(0,1); 
+      lcd.print("");
+      lcd.print(umidValue);
+      lcd.print(" umidade .            ");
     }else{
-      lcd.print("Envio de dados. ");
+      lcd.print("Envio de dados.       ");
       intToggle=-1;
     }
     intToggle++;
     
-    lcd.setCursor(0,1); 
-    lcd.print("");
-    lcd.print(voltage);
-    lcd.print("v - ");
-    lcd.print(millis()/1000);
-    lcd.print("seg.");
+    
     
     if (ledState == LOW) {
       ledState = HIGH;
